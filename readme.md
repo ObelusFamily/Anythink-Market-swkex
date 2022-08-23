@@ -10,4 +10,26 @@ When implementing a new feature or fixing a bug, please create a new pull reques
 
 ## First setup
 
-**[TODO 05/01/2018 @vanessa-cooper]:** _It's been a while since anyone ran a fresh copy of this repo. I think it's worth documenting the steps needed to install and run the repo on a new machine?_
+### Docker
+
+- [Install Docker](https://docs.docker.com/get-docker/).
+
+- Verify the installation was successful by executing `docker -v` and `docker-compose -v` in the terminal.
+
+### Run the containers
+
+From the root directory run:
+
+```sh
+docker-compose up
+```
+
+### Test the connections
+
+- Go to http://localhost:3000/api/ping to check if the backend can connect to your local DB.
+
+- If it errors out saying that migrations are pending click the "Run Pending Migrations" button.
+
+- Go to http://localhost:3001/register and create a new user.
+
+If everything was successful you are good to go!
