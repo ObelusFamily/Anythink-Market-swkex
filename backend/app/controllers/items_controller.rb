@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require_relative "../../lib/event"
+
+require_relative '../../lib/event'
 include Event
 
 class ItemsController < ApplicationController
@@ -17,12 +18,12 @@ class ItemsController < ApplicationController
     @items = @items.order(created_at: :desc).offset(params[:offset] || 0).limit(params[:limit] || 100)
 
     render json: {
-      items: @items.map { |item|
+      items: @items.map do |item|
         {
           title: item.title,
           slug: item.slug,
           description: item.description,
-          image: item.image,
+          image: item.image.empty? ? '/placeholder.png' : item.image,
           tagList: item.tags.map(&:name),
           createdAt: item.created_at,
           updatedAt: item.updated_at,
@@ -30,12 +31,12 @@ class ItemsController < ApplicationController
             username: item.user.username,
             bio: item.user.bio,
             image: item.user.image || 'https://static.productionready.io/images/smiley-cyrus.jpg',
-            following: signed_in? ? current_user.following?(item.user) : false,
+            following: signed_in? ? current_user.following?(item.user) : false
           },
           favorited: signed_in? ? current_user.favorited?(item) : false,
           favorites_count: item.favorites_count || 0
         }
-      },
+      end,
       items_count: @items_count
     }
   end
@@ -55,7 +56,7 @@ class ItemsController < ApplicationController
     @item.user = current_user
 
     if @item.save
-      sendEvent("item_created", { item: item_params })
+      sendEvent('item_created', { item: item_params })
       render :show
     else
       render json: { errors: @item.errors }, status: :unprocessable_entity
