@@ -17,6 +17,8 @@ const mapDispatchToProps = (dispatch) => ({
     }),
 });
 
+const PLACEHOLDER_IMAGE_URL = process.env.PUBLIC_URL + "/placeholder.png";
+
 const ItemPreview = (props) => {
   const item = props.item;
 
@@ -36,7 +38,7 @@ const ItemPreview = (props) => {
     >
       <img
         alt="item"
-        src={item.image}
+        src={item.image || PLACEHOLDER_IMAGE_URL}
         className="card-img-top item-img"
         style={{ borderRadius: "20px" }}
       />
